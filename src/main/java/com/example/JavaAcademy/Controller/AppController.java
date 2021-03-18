@@ -6,7 +6,7 @@ import com.example.JavaAcademy.Model.User;
 
 import com.example.JavaAcademy.Service.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -23,34 +23,20 @@ public class AppController {
     @Autowired
     private UserServiceImpl userServiceImpl;
 
-    /**
-     * View home page string.
-     *
-     * @return the string
-     */
+
     @GetMapping("")
     public String viewHomePage() {
         return "index";
     }
 
-    /**
-     * Show sign up form string.
-     *
-     * @param model the model
-     * @return the string
-     */
+
     @GetMapping("/register")
     public String showSignUpForm(Model model) {
         model.addAttribute("user", new User());
         return "signup_form";
     }
 
-    /**
-     * Add user string.
-     *
-     * @param user the user
-     * @return the string
-     */
+
     @PostMapping("/process_register")
     public String addUser(User user) {
         userServiceImpl.saveUser(user);
@@ -58,26 +44,15 @@ public class AppController {
 
     }
 
-    /**
-     * Show new user form string.
-     *
-     * @param model the model
-     * @return the string
-     */
-    @GetMapping("/showNewUserForm")
-    public String showNewUserForm(Model model) {
+
+    @GetMapping("/showNewEmployeeForm")
+    public String showNewEmployeeForm(Model model) {
         User user = new User();
         model.addAttribute("user", user);
         return "new_user";
     }
 
-    /**
-     * Show for for update string.
-     *
-     * @param id    the id
-     * @param model the model
-     * @return the string
-     */
+
     @GetMapping("/showFormUpdate/{id}")
     public String showForForUpdate(@PathVariable(value = "id") Long id, Model model) {
         User user = userServiceImpl.getUserById(id);
@@ -85,30 +60,26 @@ public class AppController {
         return "update_user";
     }
 
-    /**
-     * Delete user by id string.
-     *
-     * @param id the id
-     * @return the string
-     */
     @GetMapping("/deleteUser/{id}")
-    public String deleteUserById(@PathVariable (value = "id") Long id) {
+    public String deleteUserById(@PathVariable(value = "id") Long id) {
         userServiceImpl.deleteUserById(id);
         return "register_success";
     }
 
-    /**
-     * List all users string.
-     *
-     * @param model the model
-     * @return the string
-     */
+
     @GetMapping("/list_users")
     public String listAllUsers(Model model) {
         model.addAttribute("listUsers", userServiceImpl.getAllUsers());
         return "users";
-
     }
+}
+
+
+
+
+
+
+
 
     /**
     @GetMapping("/")
@@ -143,7 +114,7 @@ public class AppController {
      **/
 
 
-}
+
 
 
 
