@@ -6,7 +6,7 @@ import com.example.JavaAcademy.Model.User;
 
 import com.example.JavaAcademy.Service.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -36,7 +36,6 @@ public class AppController {
         return "signup_form";
     }
 
-
     @PostMapping("/process_register")
     public String addUser(User user) {
         userServiceImpl.saveUser(user);
@@ -45,13 +44,12 @@ public class AppController {
     }
 
 
-    @GetMapping("/showNewEmployeeForm")
-    public String showNewEmployeeForm(Model model) {
+    @GetMapping("/showNewUserForm")
+    public String showNewUserForm(Model model) {
         User user = new User();
         model.addAttribute("user", user);
         return "new_user";
     }
-
 
     @GetMapping("/showFormUpdate/{id}")
     public String showForForUpdate(@PathVariable(value = "id") Long id, Model model) {
@@ -61,25 +59,17 @@ public class AppController {
     }
 
     @GetMapping("/deleteUser/{id}")
-    public String deleteUserById(@PathVariable(value = "id") Long id) {
+    public String deleteUserById(@PathVariable (value = "id") Long id) {
         userServiceImpl.deleteUserById(id);
         return "register_success";
     }
-
 
     @GetMapping("/list_users")
     public String listAllUsers(Model model) {
         model.addAttribute("listUsers", userServiceImpl.getAllUsers());
         return "users";
+
     }
-}
-
-
-
-
-
-
-
 
     /**
     @GetMapping("/")
@@ -114,7 +104,7 @@ public class AppController {
      **/
 
 
-
+}
 
 
 
