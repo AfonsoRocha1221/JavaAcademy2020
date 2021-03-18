@@ -3,11 +3,8 @@ package com.example.JavaAcademy.Service;
 
 import com.example.JavaAcademy.Model.User;
 import com.example.JavaAcademy.Repository.UserRepository;
+import com.example.JavaAcademy.Security.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -32,14 +29,19 @@ public class UserServiceImpl implements UserService {
      * @return the user
      */
     public User updateUser(User user) {
-        User existingUser = repository.findById(user.getId()).orElse(null);
-        assert existingUser != null;
-        existingUser.setUserName(user.getUserName());
-        existingUser.setName(user.getName());
-        existingUser.setPassword(user.getPassword());
-        existingUser.setUpdateTimeStamp(LocalDateTime.now());
+        Optional<User> userDb = this.repository.findById(user.getId());
 
-        return repository.save(existingUser);
+        if (userDb.isPresent()) {
+            User existingUser = userDb.get();
+            existingUser.setUserName(user.getUserName());
+            existingUser.setName(user.getName());
+            existingUser.setPassword(user.getPassword());
+            existingUser.setUpdateTimeStamp(LocalDateTime.now());
+
+            return repository.save(existingUser);
+        } else {
+            throw new ResourceNotFoundException("Record not found with id : " + user.getId());
+        }
     }
 
 
@@ -56,22 +58,27 @@ public class UserServiceImpl implements UserService {
         this.repository.save(user);
     }
 
-
+    @Override
     public User getUserById(long id) {
         Optional<User> optional = repository.findById(id);
-        User user = null;
+        User user;
         if (optional.isPresent()) {
             user = optional.get();
         } else {
-            throw new RuntimeException(" User not found for id -> " + id);
+            throw new ResourceNotFoundException(" User not found for id -> " + id);
         }
         return user;
     }
 
+    @Override
+    public void deleteUserById(long id) {
+        Optional<User> userDb = this.repository.findById(id);
 
-    public String deleteUserById(long id) {
-        this.repository.deleteById(id);
-        return "User with id " + id + " has been removed";
+        if(userDb.isPresent()) {
+            this.repository.delete(userDb.get());
+        }else {
+            throw new ResourceNotFoundException("User not found with id : " + id);
+        }
     }
 
 
