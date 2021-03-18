@@ -9,6 +9,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * The type User controller.
+ */
 @RestController
 @RequestMapping(("/users"))
 public class UserController {
@@ -16,22 +19,45 @@ public class UserController {
     @Autowired
     private UserServiceImpl service;
 
+    /**
+     * Add user.
+     *
+     * @param user the user
+     */
     @PostMapping
     public void addUser (@RequestBody User user){
         this.service.saveUser(user);
 
     }
+
+    /**
+     * Gets users.
+     *
+     * @return the users
+     */
     @GetMapping
     public List<User> getUsers () {
         return service.getAllUsers();
     }
 
+    /**
+     * Delete user by id string.
+     *
+     * @param id the id
+     * @return the string
+     */
     @DeleteMapping("{id}")
     public String deleteUserById (@PathVariable Long id) {
         return service.deleteUserById(id);
 
     }
 
+    /**
+     * Update user user.
+     *
+     * @param user the user
+     * @return the user
+     */
     @PutMapping
     public User updateUser (@RequestBody User user ){
         return service.updateUser(user);

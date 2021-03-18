@@ -11,11 +11,17 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+/**
+ * The type Custom user details service.
+ */
 public class CustomUserDetailsService implements UserDetailsService {
 
     @Autowired
     private UserRepository repo;
 
+    /**
+     * The Password encoder.
+     */
     @Autowired
     PasswordEncoder passwordEncoder;
 

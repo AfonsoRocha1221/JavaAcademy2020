@@ -5,10 +5,18 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 
+/**
+ * The type Custom user details.
+ */
 public class CustomUserDetails implements UserDetails {
 
     private final User user;
 
+    /**
+     * Instantiates a new Custom user details.
+     *
+     * @param user the user
+     */
     public CustomUserDetails(User user) {
         this.user = user;
     }

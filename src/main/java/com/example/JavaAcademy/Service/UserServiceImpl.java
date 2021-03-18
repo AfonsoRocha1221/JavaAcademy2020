@@ -16,12 +16,21 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * The type User service.
+ */
 @Service
 public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserRepository repository;
 
+    /**
+     * Update user user.
+     *
+     * @param user the user
+     * @return the user
+     */
     public User updateUser(User user) {
         User existingUser = repository.findById(user.getId()).orElse(null);
         assert existingUser != null;
