@@ -54,7 +54,7 @@ public class UserServiceImpl implements UserService {
             } else {
                 throw new ResourceNotFoundException(" Username " + userName + "already exists");
             }
-        return userExists;
+        return false;
     }
 
 
@@ -75,7 +75,6 @@ public class UserServiceImpl implements UserService {
     public User getUserById(long id) {
         Optional<User> optional = repository.findById(id);
         User user;
-        user = null;
         if (optional.isPresent()) {
             user = optional.get();
         } else {
