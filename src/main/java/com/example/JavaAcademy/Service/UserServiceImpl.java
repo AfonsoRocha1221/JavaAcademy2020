@@ -44,6 +44,19 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+    public boolean CheckIfUsernameExists(String userName) {
+        List<User> users = repository.findAll();
+        boolean userExists = false;
+
+        for (User user : users)
+            if (users.contains(user.getUserName())) {
+                return true;
+            } else {
+                throw new ResourceNotFoundException(" Username " + userName + "already exists");
+            }
+        return userExists;
+    }
+
 
     @Override
     public List<User> getAllUsers() {
@@ -61,7 +74,8 @@ public class UserServiceImpl implements UserService {
     @Override
     public User getUserById(long id) {
         Optional<User> optional = repository.findById(id);
-        User user = null;
+        User user;
+        user = null;
         if (optional.isPresent()) {
             user = optional.get();
         } else {
